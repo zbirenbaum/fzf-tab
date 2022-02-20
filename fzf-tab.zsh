@@ -1,3 +1,19 @@
+function pre_completion(){
+  FZF_TAB_WIDTHVAR=$(($COLUMNS/2))
+  FZF_TAB_HEIGHTVAR=$(($LINES/2))
+  export FZF_DEFAULT_OPTS="
+  --color=fg:#707a8c,bg:-1,hl:#3e9831,fg+:#cbccc6,bg+:#10171f,hl+:#5fff87 \
+  --color=dark \
+  --color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7 \
+  --sort \
+  --layout=reverse \
+  --preview-window=right:$FZF_TAB_WIDTHVAR
+  --bind '?:toggle-preview' \
+  --cycle \
+  "
+  return
+}
+# 
 # temporarily change options
 'builtin' 'local' '-a' '_ftb_opts'
 [[ ! -o 'aliases'         ]] || _ftb_opts+=('aliases')
@@ -205,6 +221,7 @@ fzf-tab-debug() {
 }
 
 fzf-tab-complete() {
+  pre_completion
   # this name must be ugly to avoid clashes
   local -i _ftb_continue=1 _ftb_continue_last=0 _ftb_accept=0 ret=0
   # hide the cursor until finishing completion, so that users won't see cursor up and down
